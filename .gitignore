@@ -1,0 +1,10 @@
+node_modules/
+.venv/
+.tmp/
+.workbuddy/
+bin/
+dist/
+__pycache__/
+*.log
+resources/js/neutralino.js
+projectdata/

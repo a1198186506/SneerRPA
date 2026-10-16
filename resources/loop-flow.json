@@ -1,0 +1,25 @@
+{
+  "schema_version":1,
+  "name":"循环、跳过与跳出示例",
+  "elements":[],
+  "images":[],
+  "steps":[
+    {"id":"repeat-count","type":"variable.set","name":"设置循环次数为 5","params":{"output":"repeat_count","value_type":"number","value_number":5}},
+    {
+      "id":"repeat","type":"control.loop","name":"按 number 变量循环","params":{"count_source":"reference","count_variable":"repeat_count","index_variable":"loop_index"},
+      "body_steps":[
+        {"id":"iteration-log","type":"log","name":"输出当前序号","params":{"message":"第 ${loop_index} 次循环"}},
+        {
+          "id":"skip-second","type":"control.if","name":"第二次跳过本轮","params":{"left":"loop_index","operator":"==","right_type":"number","right_number":2},
+          "then_steps":[{"id":"continue","type":"control.continue","name":"继续循环","params":{}}],"else_steps":[]
+        },
+        {
+          "id":"stop-fourth","type":"control.if","name":"第四次结束循环","params":{"left":"loop_index","operator":">=","right_type":"number","right_number":4},
+          "then_steps":[{"id":"break","type":"control.break","name":"跳出循环","params":{}}],"else_steps":[]
+        },
+        {"id":"body-log","type":"log","name":"完成本轮处理","params":{"message":"本轮处理完成"}}
+      ]
+    },
+    {"id":"finished-log","type":"log","name":"循环后的步骤","params":{"message":"循环已结束"}}
+  ]
+}

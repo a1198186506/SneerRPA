@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "name": "变量与嵌套 IF 示例",
+  "elements": [],
+  "images": [],
+  "steps": [
+    {"id":"count","name":"设置数量","type":"variable.set","params":{"output":"count","value_type":"number","value_number":5}},
+    {"id":"minimum","name":"设置最低数量","type":"variable.set","params":{"output":"minimum","value_type":"number","value_number":3}},
+    {"id":"enabled","name":"开启处理","type":"variable.set","params":{"output":"enabled","value_type":"bool","value_boolean":true}},
+    {
+      "id":"number-if","name":"数量达到要求？","type":"control.if",
+      "params":{"left":"count","operator":">=","right_source":"reference","right_reference":"minimum"},
+      "then_steps":[
+        {
+          "id":"enabled-if","name":"是否开启处理？","type":"control.if",
+          "params":{"left":"enabled","operator":"==","right_type":"bool","right_boolean":true},
+          "then_steps":[{"id":"enabled-log","name":"输出处理结果","type":"log","params":{"message":"条件成立：数量 ${count}，最低要求 ${minimum}"}}],
+          "else_steps":[{"id":"disabled-log","name":"输出未开启","type":"log","params":{"message":"数量满足要求，但尚未开启处理"}}]
+        },
+        {"id":"yes-text","name":"设置结果文本","type":"variable.set","params":{"output":"summary","value_type":"string","value_text":"数量足够"}}
+      ],
+      "else_steps":[
+        {"id":"no-text","name":"设置结果文本","type":"variable.set","params":{"output":"summary","value_type":"string","value_text":"数量不足"}}
+      ]
+    },
+    {"id":"summary-log","name":"输出分支结果","type":"log","params":{"message":"${summary}"}},
+    {"id":"check-window","name":"检测测试窗口（无需启动）","type":"window.exists","params":{"target_mode":"criteria","title":"SneerRPA 节点测试台","timeout":0,"output":"test_window_exists"}},
+    {"id":"window-log","name":"输出窗口状态","type":"log","params":{"message":"测试窗口存在：${test_window_exists}"}}
+  ]
+}

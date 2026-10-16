@@ -1,0 +1,35 @@
+const assert=require('node:assert/strict');
+const path=require('node:path');
+const {menuAction,createProject}=require('./ui-helpers.cjs');
+module.exports=async(page,root)=>{
+ await page.waitForFunction(()=>view==='home'&&ready&&loaded);
+ assert(await page.locator('#project-home').isVisible());assert.equal(await page.locator('#editor').isVisible(),false);
+ await page.locator('#create-project').click();await page.getByLabel('项目名称',{exact:true}).fill('   ');await page.locator('#submit-project-name').click();
+ assert(await page.locator('#project-name-dialog').isVisible());await page.locator('#cancel-project-name').click();
+ await createProject(page,'项目 A · 历史恢复');
+ const a=await page.evaluate(()=>activeProject.id);
+ await page.locator('.action[data-type="log"]').click();
+ await page.getByLabel('日志内容').fill('A 的已保存流程');await page.getByLabel('日志内容').blur();
+ await page.waitForFunction(()=>document.querySelector('#saved').textContent==='已保存到本地');
+ await menuAction(page,'new');assert(await page.locator('#leave-project-dialog').isVisible());
+ await page.locator('#cancel-leave-project').click();assert.equal(await page.evaluate(()=>activeProject.id),a);
+ assert.equal(await page.getByLabel('日志内容').inputValue(),'A 的已保存流程');
+ // Confirm immediately after editing, before the autosave debounce expires.
+ await page.evaluate(()=>{flow.steps[0].params.message='应丢弃的未保存修改';dirty();document.querySelector('#new').click();document.querySelector('#confirm-leave-project').click();});
+ await page.waitForFunction(()=>view==='home'&&!switching);
+ assert(await page.locator(`.project-card[data-project-id="${a}"]`).isVisible());
+ await createProject(page,'项目 B · 独立保存');
+ const b=await page.evaluate(()=>activeProject.id);assert.notEqual(a,b);
+ await page.locator('.action[data-type="wait"]').click();
+ await page.waitForFunction(()=>document.querySelector('#saved').textContent==='已保存到本地');
+ await menuAction(page,'new');await page.locator('#confirm-leave-project').click();await page.waitForFunction(()=>view==='home'&&!switching);
+ await page.screenshot({path:path.join(root,'.tmp/project-home.png'),fullPage:true});
+ await page.locator(`.project-card[data-project-id="${a}"]`).click();await page.waitForFunction(()=>view==='editor'&&!switching);
+ assert.equal(await page.getByLabel('日志内容').inputValue(),'A 的已保存流程');
+ assert.equal(await page.evaluate(()=>flow.steps.length),1);
+ await page.reload();await page.waitForFunction(()=>ready&&loaded&&view==='home');
+ await page.locator(`.project-card[data-project-id="${b}"]`).click();await page.waitForFunction(()=>view==='editor'&&!switching);
+ assert.equal(await page.evaluate(()=>flow.steps[0].type),'wait');
+ await menuAction(page,'new');await page.locator('#confirm-leave-project').click();await page.waitForFunction(()=>view==='home'&&!switching);
+ console.log('PASS: named project creation, new/confirm/cancel, unsaved discard, independent history and reopen after restart');
+};

@@ -1,0 +1,1936 @@
+[
+  {
+    "type": "app.launch",
+    "name": "运行或打开",
+    "group": "窗口管理",
+    "icon": "↗",
+    "description": "选择程序或文件，配置可选启动参数",
+    "fields": [
+      {
+        "key": "path",
+        "label": "程序或文件路径",
+        "default": "notepad.exe",
+        "required": true,
+        "kind": "file"
+      },
+      {
+        "key": "args",
+        "label": "参数列表（JSON 数组）",
+        "kind": "json",
+        "default": [],
+        "help": "不需要启动参数时保留 []；例如 [\"F:/demo.txt\"] 表示打开指定文件。"
+      },
+      {
+        "key": "output",
+        "label": "进程变量名",
+        "default": "app_process",
+        "kind": "variable"
+      }
+    ]
+  },
+  {
+    "type": "window.get",
+    "name": "获取窗口对象",
+    "group": "窗口管理",
+    "icon": "▣",
+    "description": "通过元素库、窗口变量或窗口条件获取窗口",
+    "fields": [
+      {
+        "key": "target_mode",
+        "label": "窗口获取方式",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "从元素库获取所属窗口"
+          ],
+          [
+            "variable",
+            "使用窗口变量"
+          ],
+          [
+            "criteria",
+            "按窗口条件查找"
+          ]
+        ],
+        "default": "element"
+      },
+      {
+        "key": "element",
+        "label": "定位窗口的元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      },
+      {
+        "key": "window",
+        "label": "窗口变量",
+        "default": "main_window",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "variable"
+          ]
+        }
+      },
+      {
+        "key": "title",
+        "label": "窗口标题",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "match",
+        "label": "标题匹配方式",
+        "kind": "select",
+        "options": [
+          [
+            "exact",
+            "完全匹配"
+          ],
+          [
+            "contains",
+            "包含"
+          ],
+          [
+            "regex",
+            "正则表达式"
+          ]
+        ],
+        "default": "exact",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "class_name",
+        "label": "窗口类名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_name",
+        "label": "进程名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_id",
+        "label": "进程 ID（可选，支持 ${进程变量}）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "backend",
+        "label": "自动化后端",
+        "kind": "select",
+        "options": [
+          [
+            "uia",
+            "UI Automation"
+          ],
+          [
+            "win32",
+            "Win32"
+          ]
+        ],
+        "default": "uia",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "output",
+        "label": "窗口变量名",
+        "default": "main_window",
+        "kind": "variable",
+        "required": true
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "type": "window.activate",
+    "name": "激活软件窗口",
+    "group": "窗口管理",
+    "icon": "▣",
+    "description": "选择目标窗口，必要时还原并激活",
+    "fields": [
+      {
+        "key": "target_mode",
+        "label": "窗口获取方式",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "从元素库获取所属窗口"
+          ],
+          [
+            "variable",
+            "使用窗口变量"
+          ],
+          [
+            "criteria",
+            "按窗口条件查找"
+          ]
+        ],
+        "default": "element"
+      },
+      {
+        "key": "element",
+        "label": "定位窗口的元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      },
+      {
+        "key": "window",
+        "label": "窗口变量",
+        "default": "main_window",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "variable"
+          ]
+        }
+      },
+      {
+        "key": "title",
+        "label": "窗口标题",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "match",
+        "label": "标题匹配方式",
+        "kind": "select",
+        "options": [
+          [
+            "exact",
+            "完全匹配"
+          ],
+          [
+            "contains",
+            "包含"
+          ],
+          [
+            "regex",
+            "正则表达式"
+          ]
+        ],
+        "default": "exact",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "class_name",
+        "label": "窗口类名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_name",
+        "label": "进程名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_id",
+        "label": "进程 ID（可选，支持 ${进程变量}）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "backend",
+        "label": "自动化后端",
+        "kind": "select",
+        "options": [
+          [
+            "uia",
+            "UI Automation"
+          ],
+          [
+            "win32",
+            "Win32"
+          ]
+        ],
+        "default": "uia",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "type": "window.state",
+    "name": "设置窗口状态",
+    "group": "窗口管理",
+    "icon": "□",
+    "description": "还原、最大化或最小化窗口",
+    "fields": [
+      {
+        "key": "target_mode",
+        "label": "窗口获取方式",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "从元素库获取所属窗口"
+          ],
+          [
+            "variable",
+            "使用窗口变量"
+          ],
+          [
+            "criteria",
+            "按窗口条件查找"
+          ]
+        ],
+        "default": "element"
+      },
+      {
+        "key": "element",
+        "label": "定位窗口的元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      },
+      {
+        "key": "window",
+        "label": "窗口变量",
+        "default": "main_window",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "variable"
+          ]
+        }
+      },
+      {
+        "key": "title",
+        "label": "窗口标题",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "match",
+        "label": "标题匹配方式",
+        "kind": "select",
+        "options": [
+          [
+            "exact",
+            "完全匹配"
+          ],
+          [
+            "contains",
+            "包含"
+          ],
+          [
+            "regex",
+            "正则表达式"
+          ]
+        ],
+        "default": "exact",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "class_name",
+        "label": "窗口类名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_name",
+        "label": "进程名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_id",
+        "label": "进程 ID（可选，支持 ${进程变量}）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "backend",
+        "label": "自动化后端",
+        "kind": "select",
+        "options": [
+          [
+            "uia",
+            "UI Automation"
+          ],
+          [
+            "win32",
+            "Win32"
+          ]
+        ],
+        "default": "uia",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "state",
+        "label": "窗口状态",
+        "kind": "select",
+        "options": [
+          [
+            "restore",
+            "还原"
+          ],
+          [
+            "maximize",
+            "最大化"
+          ],
+          [
+            "minimize",
+            "最小化"
+          ]
+        ],
+        "default": "restore"
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "type": "window.close",
+    "name": "关闭软件窗口",
+    "group": "窗口管理",
+    "icon": "×",
+    "description": "向目标窗口发送正常关闭请求",
+    "fields": [
+      {
+        "key": "target_mode",
+        "label": "窗口获取方式",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "从元素库获取所属窗口"
+          ],
+          [
+            "variable",
+            "使用窗口变量"
+          ],
+          [
+            "criteria",
+            "按窗口条件查找"
+          ]
+        ],
+        "default": "element"
+      },
+      {
+        "key": "element",
+        "label": "定位窗口的元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      },
+      {
+        "key": "window",
+        "label": "窗口变量",
+        "default": "main_window",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "variable"
+          ]
+        }
+      },
+      {
+        "key": "title",
+        "label": "窗口标题",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "match",
+        "label": "标题匹配方式",
+        "kind": "select",
+        "options": [
+          [
+            "exact",
+            "完全匹配"
+          ],
+          [
+            "contains",
+            "包含"
+          ],
+          [
+            "regex",
+            "正则表达式"
+          ]
+        ],
+        "default": "exact",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "class_name",
+        "label": "窗口类名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_name",
+        "label": "进程名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_id",
+        "label": "进程 ID（可选，支持 ${进程变量}）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "backend",
+        "label": "自动化后端",
+        "kind": "select",
+        "options": [
+          [
+            "uia",
+            "UI Automation"
+          ],
+          [
+            "win32",
+            "Win32"
+          ]
+        ],
+        "default": "uia",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "type": "window.exists",
+    "name": "判断窗体是否存在",
+    "group": "窗口管理",
+    "icon": "?",
+    "description": "等待窗口出现，输出是否存在",
+    "fields": [
+      {
+        "key": "target_mode",
+        "label": "窗口获取方式",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "从元素库获取所属窗口"
+          ],
+          [
+            "variable",
+            "使用窗口变量"
+          ],
+          [
+            "criteria",
+            "按窗口条件查找"
+          ]
+        ],
+        "default": "element"
+      },
+      {
+        "key": "element",
+        "label": "定位窗口的元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      },
+      {
+        "key": "window",
+        "label": "窗口变量",
+        "default": "main_window",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "variable"
+          ]
+        }
+      },
+      {
+        "key": "title",
+        "label": "窗口标题",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "match",
+        "label": "标题匹配方式",
+        "kind": "select",
+        "options": [
+          [
+            "exact",
+            "完全匹配"
+          ],
+          [
+            "contains",
+            "包含"
+          ],
+          [
+            "regex",
+            "正则表达式"
+          ]
+        ],
+        "default": "exact",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        }
+      },
+      {
+        "key": "class_name",
+        "label": "窗口类名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_name",
+        "label": "进程名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_id",
+        "label": "进程 ID（可选，支持 ${进程变量}）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "backend",
+        "label": "自动化后端",
+        "kind": "select",
+        "options": [
+          [
+            "uia",
+            "UI Automation"
+          ],
+          [
+            "win32",
+            "Win32"
+          ]
+        ],
+        "default": "uia",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "output",
+        "label": "存在结果变量名",
+        "default": "window_exists",
+        "kind": "variable",
+        "required": true
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 0,
+        "min": 0,
+        "max": 120,
+        "advanced": true
+      }
+    ]
+  },
+  {
+    "type": "element.click",
+    "name": "点击元素",
+    "group": "控件操作",
+    "icon": "↖",
+    "description": "按元素选择器定位后点击",
+    "fields": [
+      {
+        "key": "element",
+        "label": "目标元素",
+        "kind": "element",
+        "default": ""
+      },
+      {
+        "key": "window",
+        "label": "窗口变量（可选）",
+        "default": "",
+        "advanced": true,
+        "help": "默认使用目标元素自身的窗口；仅在需要限定另一个窗口实例时填写。"
+      },
+      {
+        "key": "button",
+        "label": "点击方式",
+        "kind": "select",
+        "options": [
+          [
+            "left",
+            "左键单击"
+          ],
+          [
+            "double",
+            "左键双击"
+          ],
+          [
+            "right",
+            "右键单击"
+          ]
+        ],
+        "default": "left"
+      },
+      {
+        "key": "method",
+        "label": "操作方式",
+        "kind": "select",
+        "options": [
+          [
+            "native",
+            "控件接口"
+          ],
+          [
+            "input",
+            "真实鼠标"
+          ]
+        ],
+        "default": "native"
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120
+      }
+    ]
+  },
+  {
+    "type": "element.input",
+    "name": "填写输入框",
+    "group": "控件操作",
+    "icon": "T",
+    "description": "向目标输入框写入文本",
+    "fields": [
+      {
+        "key": "element",
+        "label": "目标元素",
+        "kind": "element",
+        "default": ""
+      },
+      {
+        "key": "window",
+        "label": "窗口变量（可选）",
+        "default": "",
+        "advanced": true,
+        "help": "默认使用目标元素自身的窗口；仅在需要限定另一个窗口实例时填写。"
+      },
+      {
+        "key": "text",
+        "label": "输入内容",
+        "kind": "multiline",
+        "default": "Hello from SneerRPA"
+      },
+      {
+        "key": "clear",
+        "label": "输入前清空",
+        "kind": "boolean",
+        "default": true
+      },
+      {
+        "key": "method",
+        "label": "操作方式",
+        "kind": "select",
+        "options": [
+          [
+            "native",
+            "控件接口"
+          ],
+          [
+            "input",
+            "真实键盘"
+          ]
+        ],
+        "default": "native"
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120
+      }
+    ]
+  },
+  {
+    "type": "element.wait",
+    "name": "等待元素",
+    "group": "控件操作",
+    "icon": "◷",
+    "description": "等待出现或消失，输出等待结果",
+    "fields": [
+      {
+        "key": "element",
+        "label": "目标元素",
+        "kind": "element",
+        "default": ""
+      },
+      {
+        "key": "window",
+        "label": "窗口变量（可选）",
+        "default": "",
+        "advanced": true,
+        "help": "默认使用目标元素自身的窗口；仅在需要限定另一个窗口实例时填写。"
+      },
+      {
+        "key": "state",
+        "label": "等待状态",
+        "kind": "select",
+        "options": [
+          [
+            "appear",
+            "出现且可见"
+          ],
+          [
+            "disappear",
+            "消失或隐藏"
+          ]
+        ],
+        "default": "appear"
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120
+      },
+      {
+        "key": "fail_on_timeout",
+        "label": "超时则停止流程",
+        "kind": "boolean",
+        "default": true
+      },
+      {
+        "key": "output",
+        "label": "结果变量名",
+        "default": "element_ready",
+        "kind": "variable"
+      }
+    ]
+  },
+  {
+    "type": "element.read",
+    "name": "获取元素信息",
+    "group": "控件操作",
+    "icon": "≡",
+    "description": "读取文本、值、属性或位置",
+    "fields": [
+      {
+        "key": "element",
+        "label": "目标元素",
+        "kind": "element",
+        "default": ""
+      },
+      {
+        "key": "window",
+        "label": "窗口变量（可选）",
+        "default": "",
+        "advanced": true,
+        "help": "默认使用目标元素自身的窗口；仅在需要限定另一个窗口实例时填写。"
+      },
+      {
+        "key": "info",
+        "label": "读取内容",
+        "kind": "select",
+        "options": [
+          [
+            "text",
+            "文本"
+          ],
+          [
+            "value",
+            "值"
+          ],
+          [
+            "properties",
+            "常用属性"
+          ],
+          [
+            "rectangle",
+            "位置与大小"
+          ]
+        ],
+        "default": "text"
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120
+      },
+      {
+        "key": "output",
+        "label": "结果变量名",
+        "default": "element_text",
+        "kind": "variable",
+        "required": true
+      }
+    ]
+  },
+  {
+    "type": "mouse.click",
+    "name": "鼠标点击",
+    "group": "鼠标键盘",
+    "icon": "↖",
+    "description": "真实鼠标点击元素或屏幕坐标",
+    "fields": [
+      {
+        "key": "target_mode",
+        "label": "点击目标",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "元素库元素"
+          ],
+          [
+            "coordinates",
+            "屏幕坐标"
+          ],
+          [
+            "position",
+            "位置变量"
+          ]
+        ],
+        "default": "element"
+      },
+      {
+        "key": "element",
+        "label": "目标元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      },
+      {
+        "key": "position",
+        "label": "点击位置变量",
+        "kind": "reference",
+        "types": [
+          "point"
+        ],
+        "default": "",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "position"
+          ]
+        },
+        "help": "选择找图结果的 center 字段；未找到图片时不会执行点击。"
+      },
+      {
+        "key": "x",
+        "label": "屏幕 X 坐标",
+        "kind": "number",
+        "default": 0,
+        "min": -2147483648,
+        "max": 2147483647,
+        "integer": true,
+        "show_if": {
+          "target_mode": [
+            "coordinates"
+          ]
+        }
+      },
+      {
+        "key": "y",
+        "label": "屏幕 Y 坐标",
+        "kind": "number",
+        "default": 0,
+        "min": -2147483648,
+        "max": 2147483647,
+        "integer": true,
+        "show_if": {
+          "target_mode": [
+            "coordinates"
+          ]
+        },
+        "help": "使用屏幕绝对坐标；左侧或上方的副屏坐标可以为负数。"
+      },
+      {
+        "key": "button",
+        "label": "点击方式",
+        "kind": "select",
+        "options": [
+          [
+            "left",
+            "左键单击"
+          ],
+          [
+            "double",
+            "左键双击"
+          ],
+          [
+            "right",
+            "右键单击"
+          ]
+        ],
+        "default": "left"
+      },
+      {
+        "key": "timeout",
+        "label": "查找元素超时（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120,
+        "advanced": true,
+        "show_if": {
+          "target_mode": [
+            "element"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "keyboard.input",
+    "name": "键盘输入",
+    "group": "鼠标键盘",
+    "icon": "T",
+    "description": "向当前光标位置输入文本",
+    "fields": [
+      {
+        "key": "text",
+        "label": "要输入的文本",
+        "kind": "multiline",
+        "default": "",
+        "help": "输入到当前获得焦点的位置，不会自动清空原内容。特殊符号按普通文本输入，换行会发送回车。"
+      }
+    ]
+  },
+  {
+    "type": "log",
+    "name": "输出日志",
+    "group": "流程工具",
+    "icon": "≡",
+    "description": "支持 ${变量名} 引用运行结果",
+    "fields": [
+      {
+        "key": "message",
+        "label": "日志内容",
+        "kind": "multiline",
+        "default": "Hello from SneerRPA"
+      }
+    ]
+  },
+  {
+    "type": "wait",
+    "name": "等待",
+    "group": "流程工具",
+    "icon": "◷",
+    "description": "等待指定的秒数",
+    "fields": [
+      {
+        "key": "seconds",
+        "label": "等待时间（秒）",
+        "kind": "number",
+        "default": 3,
+        "min": 0,
+        "max": 3600
+      }
+    ]
+  },
+  {
+    "type": "demo_window",
+    "name": "测试窗口（旧版）",
+    "group": "流程工具",
+    "icon": "▣",
+    "description": "兼容第一版测试流程",
+    "fields": [
+      {
+        "key": "text",
+        "label": "输入文本",
+        "default": "Hello from SneerRPA"
+      }
+    ],
+    "hidden": true
+  },
+  {
+    "type": "variable.set",
+    "name": "设置变量",
+    "group": "逻辑与变量",
+    "icon": "V",
+    "description": "创建或更新有明确类型的变量",
+    "fields": [
+      {
+        "key": "output",
+        "label": "变量名称",
+        "kind": "variable",
+        "default": "my_value",
+        "required": true
+      },
+      {
+        "key": "value_type",
+        "label": "变量类型",
+        "kind": "select",
+        "options": [
+          [
+            "bool",
+            "布尔 bool"
+          ],
+          [
+            "string",
+            "文本 string"
+          ],
+          [
+            "number",
+            "数字 number"
+          ],
+          [
+            "window",
+            "窗口"
+          ]
+        ],
+        "default": "bool"
+      },
+      {
+        "key": "source",
+        "label": "值的来源",
+        "kind": "select",
+        "options": [
+          [
+            "literal",
+            "自定义值"
+          ],
+          [
+            "reference",
+            "已有变量"
+          ],
+          [
+            "window",
+            "获取窗口"
+          ]
+        ],
+        "default": "literal"
+      },
+      {
+        "key": "source_variable",
+        "label": "来源变量",
+        "kind": "reference",
+        "default": "",
+        "required": true,
+        "show_if": {
+          "source": [
+            "reference"
+          ]
+        }
+      },
+      {
+        "key": "value_boolean",
+        "label": "布尔值",
+        "kind": "boolean",
+        "default": true,
+        "show_if": {
+          "source": [
+            "literal"
+          ],
+          "value_type": [
+            "bool"
+          ]
+        }
+      },
+      {
+        "key": "value_text",
+        "label": "文本值",
+        "kind": "multiline",
+        "default": "",
+        "show_if": {
+          "source": [
+            "literal"
+          ],
+          "value_type": [
+            "string"
+          ]
+        }
+      },
+      {
+        "key": "value_number",
+        "label": "数字值",
+        "kind": "number",
+        "min": -1000000000000000.0,
+        "max": 1000000000000000.0,
+        "default": 0,
+        "show_if": {
+          "source": [
+            "literal"
+          ],
+          "value_type": [
+            "number"
+          ]
+        }
+      },
+      {
+        "key": "target_mode",
+        "label": "窗口获取方式",
+        "kind": "select",
+        "options": [
+          [
+            "element",
+            "从元素库获取所属窗口"
+          ],
+          [
+            "variable",
+            "使用窗口变量"
+          ],
+          [
+            "criteria",
+            "按窗口条件查找"
+          ]
+        ],
+        "default": "element",
+        "show_if": {
+          "source": [
+            "window"
+          ]
+        }
+      },
+      {
+        "key": "element",
+        "label": "定位窗口的元素",
+        "kind": "element",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "element"
+          ],
+          "source": [
+            "window"
+          ]
+        }
+      },
+      {
+        "key": "window",
+        "label": "窗口变量",
+        "default": "main_window",
+        "required": true,
+        "show_if": {
+          "target_mode": [
+            "variable"
+          ],
+          "source": [
+            "window"
+          ]
+        }
+      },
+      {
+        "key": "title",
+        "label": "窗口标题",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ],
+          "source": [
+            "window"
+          ]
+        }
+      },
+      {
+        "key": "match",
+        "label": "标题匹配方式",
+        "kind": "select",
+        "options": [
+          [
+            "exact",
+            "完全匹配"
+          ],
+          [
+            "contains",
+            "包含"
+          ],
+          [
+            "regex",
+            "正则表达式"
+          ]
+        ],
+        "default": "exact",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ],
+          "source": [
+            "window"
+          ]
+        }
+      },
+      {
+        "key": "class_name",
+        "label": "窗口类名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ],
+          "source": [
+            "window"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_name",
+        "label": "进程名（可选）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ],
+          "source": [
+            "window"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "process_id",
+        "label": "进程 ID（可选，支持 ${进程变量}）",
+        "default": "",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ],
+          "source": [
+            "window"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "backend",
+        "label": "自动化后端",
+        "kind": "select",
+        "options": [
+          [
+            "uia",
+            "UI Automation"
+          ],
+          [
+            "win32",
+            "Win32"
+          ]
+        ],
+        "default": "uia",
+        "show_if": {
+          "target_mode": [
+            "criteria"
+          ],
+          "source": [
+            "window"
+          ]
+        },
+        "advanced": true
+      },
+      {
+        "key": "timeout",
+        "label": "超时时间（秒）",
+        "kind": "number",
+        "default": 10,
+        "min": 0,
+        "max": 120,
+        "advanced": true,
+        "show_if": {
+          "source": [
+            "window"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "control.if",
+    "name": "IF 条件判断",
+    "group": "逻辑与变量",
+    "icon": "◇",
+    "description": "根据比较结果执行如果或否则分支",
+    "fields": [
+      {
+        "key": "left",
+        "label": "左侧变量",
+        "kind": "reference",
+        "types": [
+          "bool",
+          "string",
+          "number"
+        ],
+        "default": "",
+        "required": true
+      },
+      {
+        "key": "operator",
+        "label": "比较运算符",
+        "kind": "select",
+        "options": [
+          [
+            "==",
+            "=="
+          ],
+          [
+            "!=",
+            "!="
+          ],
+          [
+            ">",
+            ">"
+          ],
+          [
+            ">=",
+            ">="
+          ],
+          [
+            "<",
+            "<"
+          ],
+          [
+            "<=",
+            "<="
+          ]
+        ],
+        "default": "=="
+      },
+      {
+        "key": "right_source",
+        "label": "右侧来源",
+        "kind": "select",
+        "options": [
+          [
+            "literal",
+            "自定义值"
+          ],
+          [
+            "reference",
+            "已有变量"
+          ]
+        ],
+        "default": "literal"
+      },
+      {
+        "key": "right_type",
+        "label": "右侧值类型",
+        "kind": "select",
+        "options": [
+          [
+            "bool",
+            "布尔"
+          ],
+          [
+            "string",
+            "文本"
+          ],
+          [
+            "number",
+            "数字"
+          ]
+        ],
+        "default": "bool",
+        "show_if": {
+          "right_source": [
+            "literal"
+          ]
+        }
+      },
+      {
+        "key": "right_reference",
+        "label": "右侧变量",
+        "kind": "reference",
+        "types": [
+          "bool",
+          "string",
+          "number"
+        ],
+        "default": "",
+        "required": true,
+        "show_if": {
+          "right_source": [
+            "reference"
+          ]
+        }
+      },
+      {
+        "key": "right_boolean",
+        "label": "右侧布尔值",
+        "kind": "boolean",
+        "default": true,
+        "show_if": {
+          "right_source": [
+            "literal"
+          ],
+          "right_type": [
+            "bool"
+          ]
+        }
+      },
+      {
+        "key": "right_text",
+        "label": "右侧文本值",
+        "kind": "multiline",
+        "default": "",
+        "show_if": {
+          "right_source": [
+            "literal"
+          ],
+          "right_type": [
+            "string"
+          ]
+        }
+      },
+      {
+        "key": "right_number",
+        "label": "右侧数字值",
+        "kind": "number",
+        "default": 0,
+        "min": -1000000000000000.0,
+        "max": 1000000000000000.0,
+        "show_if": {
+          "right_source": [
+            "literal"
+          ],
+          "right_type": [
+            "number"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "control.loop",
+    "name": "循环",
+    "group": "逻辑与变量",
+    "icon": "↻",
+    "description": "按自定义次数或 number 变量重复执行循环体",
+    "fields": [
+      {
+        "key": "count_source",
+        "label": "次数来源",
+        "kind": "select",
+        "options": [
+          [
+            "literal",
+            "自定义次数"
+          ],
+          [
+            "reference",
+            "已有变量"
+          ]
+        ],
+        "default": "literal"
+      },
+      {
+        "key": "count",
+        "label": "循环次数",
+        "kind": "number",
+        "default": 3,
+        "min": 0,
+        "max": 10000,
+        "integer": true,
+        "show_if": {
+          "count_source": [
+            "literal"
+          ]
+        }
+      },
+      {
+        "key": "count_variable",
+        "label": "次数变量",
+        "kind": "reference",
+        "types": [
+          "number"
+        ],
+        "default": "",
+        "required": true,
+        "show_if": {
+          "count_source": [
+            "reference"
+          ]
+        }
+      },
+      {
+        "key": "index_variable",
+        "label": "循环序号变量名",
+        "kind": "variable",
+        "default": "loop_index",
+        "required": true,
+        "help": "从 1 开始，只在循环体中使用。嵌套循环请使用不同变量名。"
+      },
+      {
+        "key": "max_iterations",
+        "label": "循环次数上限",
+        "kind": "number",
+        "default": 1000,
+        "min": 1,
+        "max": 10000,
+        "integer": true,
+        "advanced": true,
+        "help": "超过上限时报错；最大可设置为 10000。"
+      }
+    ]
+  },
+  {
+    "type": "control.break",
+    "name": "跳出循环",
+    "group": "逻辑与变量",
+    "icon": "↪",
+    "description": "结束当前所在的最内层循环",
+    "fields": []
+  },
+  {
+    "type": "control.continue",
+    "name": "继续循环",
+    "group": "逻辑与变量",
+    "icon": "↥",
+    "description": "跳过本轮剩余步骤，进入最内层循环的下一轮",
+    "fields": []
+  },
+  {
+    "type": "image.find",
+    "name": "以图找图",
+    "group": "图像自动化",
+    "icon": "▧",
+    "description": "在屏幕中匹配图片素材，输出结果与中心位置",
+    "fields": [
+      {
+        "key": "image",
+        "label": "目标图片",
+        "kind": "image",
+        "default": "",
+        "required": true
+      },
+      {
+        "key": "scope",
+        "label": "搜索范围",
+        "kind": "select",
+        "options": [
+          [
+            "screen",
+            "全屏"
+          ],
+          [
+            "window",
+            "指定窗口"
+          ],
+          [
+            "region",
+            "屏幕区域"
+          ]
+        ],
+        "default": "screen"
+      },
+      {
+        "key": "search_window",
+        "label": "搜索窗口变量",
+        "kind": "reference",
+        "types": [
+          "window"
+        ],
+        "default": "",
+        "required": true,
+        "show_if": {
+          "scope": [
+            "window"
+          ]
+        }
+      },
+      {
+        "key": "region_x",
+        "label": "区域 X",
+        "kind": "number",
+        "default": 0,
+        "min": -32768,
+        "max": 32768,
+        "integer": true,
+        "show_if": {
+          "scope": [
+            "region"
+          ]
+        }
+      },
+      {
+        "key": "region_y",
+        "label": "区域 Y",
+        "kind": "number",
+        "default": 0,
+        "min": -32768,
+        "max": 32768,
+        "integer": true,
+        "show_if": {
+          "scope": [
+            "region"
+          ]
+        }
+      },
+      {
+        "key": "region_width",
+        "label": "区域宽度",
+        "kind": "number",
+        "default": 300,
+        "min": 1,
+        "max": 32768,
+        "integer": true,
+        "show_if": {
+          "scope": [
+            "region"
+          ]
+        }
+      },
+      {
+        "key": "region_height",
+        "label": "区域高度",
+        "kind": "number",
+        "default": 200,
+        "min": 1,
+        "max": 32768,
+        "integer": true,
+        "show_if": {
+          "scope": [
+            "region"
+          ]
+        }
+      },
+      {
+        "key": "threshold",
+        "label": "匹配阈值（0–1）",
+        "kind": "number",
+        "default": 0.9,
+        "min": 0.01,
+        "max": 1
+      },
+      {
+        "key": "timeout",
+        "label": "等待超时（秒）",
+        "kind": "number",
+        "default": 3,
+        "min": 0,
+        "max": 120
+      },
+      {
+        "key": "output",
+        "label": "匹配结果变量名",
+        "kind": "variable",
+        "default": "image_match",
+        "required": true
+      },
+      {
+        "key": "ambiguity",
+        "label": "多个匹配时",
+        "kind": "select",
+        "options": [
+          [
+            "error",
+            "报错，要求缩小搜索范围"
+          ],
+          [
+            "best",
+            "使用最高分匹配"
+          ]
+        ],
+        "default": "error",
+        "advanced": true
+      },
+      {
+        "key": "grayscale",
+        "label": "灰度匹配",
+        "kind": "boolean",
+        "default": false,
+        "advanced": true
+      },
+      {
+        "key": "multiscale",
+        "label": "多尺度搜索（较慢）",
+        "kind": "boolean",
+        "default": false,
+        "advanced": true
+      }
+    ]
+  }
+]

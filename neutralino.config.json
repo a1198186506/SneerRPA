@@ -1,0 +1,51 @@
+{
+  "applicationId": "com.sneer.rpa",
+  "version": "0.1.0",
+  "defaultMode": "window",
+  "port": 0,
+  "documentRoot": "/resources/",
+  "url": "/",
+  "enableServer": true,
+  "enableNativeAPI": true,
+  "enableExtensions": true,
+  "tokenSecurity": "one-time",
+  "exportAuthInfo": true,
+  "nativeAllowList": [
+    "app.broadcast",
+    "app.exit",
+    "extensions.*",
+    "filesystem.readFile",
+    "filesystem.writeFile",
+    "os.showSaveDialog",
+    "os.showOpenDialog",
+    "window.hide",
+    "window.show",
+    "os.showFolderDialog"
+  ],
+  "extensions": [
+    {
+      "id": "com.sneer.python",
+      "commandWindows": "\"${NL_PATH}/.venv/Scripts/python.exe\" -u \"${NL_PATH}/extensions/backend.py\""
+    }
+  ],
+  "modes": {
+    "window": {
+      "title": "SneerRPA 工作室",
+      "width": 1360,
+      "height": 900,
+      "minWidth": 1060,
+      "minHeight": 720,
+      "center": true,
+      "enableInspector": true,
+      "exitProcessOnClose": true
+    }
+  },
+  "cli": {
+    "binaryName": "sneerrpa",
+    "resourcesPath": "/resources/",
+    "extensionsPath": "/extensions/",
+    "clientLibrary": "/resources/js/neutralino.js",
+    "binaryVersion": "6.7.0",
+    "clientVersion": "6.7.0"
+  }
+}

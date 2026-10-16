@@ -1,0 +1,20 @@
+{
+  "name": "sneer-rpa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "neu run",
+    "build": "neu build --release",
+    "build:installer": ".venv\\Scripts\\python.exe tools/build_installer.py",
+    "update": "neu update",
+    "test": "node tests/smoke.cjs",
+    "test:drag": "node tests/drag-smoke.cjs",
+    "test:exe": "node tests/exe-smoke.cjs",
+    "test:exe:sample": "node tests/exe-sample.cjs",
+    "test:engine": ".venv\\Scripts\\python.exe -m unittest discover -s tests -p test_*.py -v"
+  },
+  "devDependencies": {
+    "@neutralinojs/neu": "11.8.0",
+    "@playwright/test": "^1.64.1"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1, "name": "Windows 窗体自动化示例",
+  "elements": [
+    {"id":"sample-input","name":"测试台 · 输入内容","selector":{"backend":"uia","window":{"title":"SneerRPA 节点测试台","match":"exact","backend":"uia"},"criteria":{"name":"输入内容","control_type":"Edit"}}},
+    {"id":"sample-confirm","name":"测试台 · 确认按钮","selector":{"backend":"uia","window":{"title":"SneerRPA 节点测试台","match":"exact","backend":"uia"},"criteria":{"name":"确认","control_type":"Button"}}},
+    {"id":"sample-result","name":"测试台 · 结果内容","selector":{"backend":"uia","window":{"title":"SneerRPA 节点测试台","match":"exact","backend":"uia"},"criteria":{"name":"结果内容","control_type":"Edit"}}}
+  ],
+  "steps": [
+    {"id":"sample-launch","type":"app.launch","name":"打开节点测试台","params":{"path":"powershell.exe","args":["-NoProfile","-ExecutionPolicy","Bypass","-STA","-WindowStyle","Hidden","-File","tools/test-window.ps1"]}},
+    {"id":"sample-window","type":"window.get","name":"获取测试台窗口","params":{"title":"SneerRPA 节点测试台","process_id":"${app_process}","output":"main_window","timeout":15}},
+    {"id":"sample-activate","type":"window.activate","name":"激活测试台","params":{"window":"main_window"}},
+    {"id":"sample-state","type":"window.state","name":"还原窗口","params":{"window":"main_window","state":"restore"}},
+    {"id":"sample-wait","type":"element.wait","name":"等待输入框出现","params":{"element":"sample-input","window":"main_window"}},
+    {"id":"sample-input","type":"element.input","name":"填写测试内容","params":{"element":"sample-input","window":"main_window","text":"Hello SneerRPA · 你好 RPA + {test}"}},
+    {"id":"sample-click","type":"element.click","name":"点击确认按钮","params":{"element":"sample-confirm","window":"main_window"}},
+    {"id":"sample-read","type":"element.read","name":"读取处理结果","params":{"element":"sample-result","window":"main_window","info":"value","output":"result_text"}},
+    {"id":"sample-log","type":"log","name":"打印处理结果","params":{"message":"处理结果：${result_text}"}},
+    {"id":"sample-close","type":"window.close","name":"关闭测试台","params":{"window":"main_window"}}
+  ]
+}
